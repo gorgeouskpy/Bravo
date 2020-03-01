@@ -1,77 +1,82 @@
 <html>
-    <head> 
-        <meta http-equiv="Content-Type" content="text/html" charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>HOME</title>
-        <meta >
-        <link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.min.css"> 
-        <link rel="stylesheet" href="/css/bootstrap.css"></linke>
-        <link rel="stylesheet" href="/css/home.css">
-    </head>
-    <body class="background-class">
-        <div id="home">
-            <topbar></topbar>
-            <div class="container">
-                <div class="row contentarea" style="z-index:50;">
-                    <div class="col-md-8 col-sm-12 content">
-                        <div class="contentbox">
-                            <p class="contentuser"><span class="fa fa-user-circle">&nbsp</span>{{user}} 说:</p>
-                            <hr style="width:100%">
-                            <div v-html="content" class="content-text"></div>
-                            <hr style="width:100%">
-                            <div class="markplace">
-                                <span style="color:rgb(59, 36, 5);">{{date}}</span>
-                                <div class="markpill"><span @click.once="agree += 1">赞({{agree}})</span>&nbsp&nbsp<span @click.once="disagree += 1" style="float:right;">踩({{disagree}})</span></div>
-                                <div style="clear:both;"></div>
-                            </div>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HOME</title>
+    <meta>
+    <link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    </linke>
+    <link rel="stylesheet" href="/css/home.css">
+</head>
+
+<body class="background-class">
+    <div id="home">
+        <topbar></topbar>
+        <div class="container">
+            <div class="row contentarea" style="z-index:50;">
+                <mainbox
+                v-for="page in pages"
+                v-bind:page="page"></mainbox>
+        </div>
+    </div>
+    </div>
+</body>
+<script src="/js/jquery3.4.1.js"></script>
+<script src="/js/bootstrap.bundle.js"></script>
+<script src="/js/vue.js"></script>
+<script src="/js/main.js"></script>
+<script>
+    const mainbox = {
+        template: `
+        <div class="col-md-8 col-sm-12 content">
+                    <div class="contentbox">
+                        <p class="contentuser"><span class="fa fa-user-circle">&nbsp</span>{{page.user}} 说:</p>
+                        <hr style="width:100%">
+                        <div v-html="page.content" class="content-text"></div>
+                        <div style="100%"><button class="showreviewbtn" @click="switchReviewStatus">阅读评论</button></div>
+                        <div class="review" v-if="readReview">
+                            <hr style="width: 100%;">
+                            <span><b>reuser:</b></span>
+                            <span>review</span><br>
+                            <span style="color: rgba(59, 36, 5, 0.7); float: right;">retime</span>
+                        </div>
+                        <hr style="width:100%">
+                        <div class="markplace">
+                            <span style="color:rgb(59, 36, 5);">{{page.date}}</span>
+                            <div class="markpill"><span @click.once="this.agree += 1">赞({{page.agree}})</span>&nbsp&nbsp<span
+                                    @click.once="this.disagree += 1" style="float:right;">踩({{page.disagree}})</span></div>
+                            <div style="clear:both;"></div>
                         </div>
                     </div>
                 </div>
             </div>
-         </div>
-    </body>
-    <script src="/js/jquery3.4.1.js"></script>
-    <script src="/js/bootstrap.bundle.js"></script>
-    <script src="/js/vue.js"></script>
-    <script src="/js/main.js"></script>
-    <script>
-        const contentbox = {
-            props:[
-                'user',
-                'agree',
-                'disagree',
-                'date',
-                'content',
-            ],
-            template:
-            `
-            <div class="row contentarea" style="z-index:50;">
-                    <div class="col-md-8 col-sm-12 content">
-                        <div class="contentbox">
-                            <p class="contentuser"><span class="fa fa-user-circle">&nbsp</span>{{user}} 说:</p>
-                            <hr style="width:100%">
-                            <div v-html="content" class="content-text"></div>
-                            <hr style="width:100%">
-                            <div class="markplace">
-                                <span style="color:rgb(59, 36, 5);">{{date}}</span>
-                                <div class="markpill"><span @click.once="agree += 1">赞({{agree}})</span>&nbsp&nbsp<span @click.once="disagree += 1" style="float:right;">踩({{disagree}})</span></div>
-                                <div style="clear:both;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             `,
-        }
-        var vm = new Vue({
-            el: "#home",
-            data:{
-                hello: "Hey! There!",
-                user: "Eli",
-                agree: 100,
-                disagree: 100,
-                date: "2000-11-20",
-                content:
-                `
+            props:[
+                'page',
+            ],
+            data:function(){
+                return{
+                    readReview: true,
+                }
+            },
+            methods:{
+                switchReviewStatus:function(){
+                    this.readReview = !this.readReview;
+                }
+            }
+    };
+
+    var vm = new Vue({
+        el: "#home",
+        data: {
+            pages:[{
+            user: "Eli",
+            agree: 100,
+            disagree: 100,
+            date: "2000-11-20",
+            content: `
                 this is some content!
                 this is some content!
                 this is some content!
@@ -107,10 +112,14 @@
                 this is some content!
                 this is some content!
                 `,
-            },
-            components:{
-                'topbar':topbar,
-            }
-        })
-    </script>
+ 
+            },{}],
+        },
+        components: {
+            'topbar': topbar,
+            'mainbox': mainbox,
+        }
+    })
+</script>
+
 </html>

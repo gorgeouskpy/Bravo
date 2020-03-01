@@ -1,3 +1,6 @@
+*{
+    outline: none;
+}
 .background-class{
     background-color: rgb(235, 205, 165);
 }
@@ -19,6 +22,10 @@
     z-index: 101;
     position: fixed;
     top: 20px;
+    transition: text-shadow .5s;
+}
+.topbar > span:hover{
+    text-shadow: 0 0 5px rgb(192, 170, 140);
 }
 
 .top-3{
@@ -85,4 +92,20 @@
 }
 .markpill > span:hover{
     text-decoration: underline;
+}
+.review{
+    margin: 20px;
+    padding: 5px;
+    color: rgb(59, 36, 5);
+}
+.review > span{
+    color: rgb(59, 36, 5);
+}
+.showreviewbtn{
+    outline: none;
+    background-color: rgb(129, 92, 42);
+    color: rgb(235, 205, 165);
+}
+.showreviewbtn:active,.showreviewbtn:hover,.showreviewbtn:visited,.showreviewbtn:enabled{
+    outline: none;
 }
