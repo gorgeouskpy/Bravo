@@ -7,7 +7,6 @@
     <meta>
     <link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/css/bootstrap.css">
-    </linke>
     <link rel="stylesheet" href="/css/home.css">
 </head>
 
@@ -16,6 +15,9 @@
         <topbar></topbar>
         <div class="container">
             <div class="row contentarea" style="z-index:50;">
+                <div class="col-sm-12 col-md-8">
+                    <textarea name="newcontent" class="newcontent contentbox" rows="5" placeholder="Press Enter To Press"></textarea>
+                </div>
                 <mainbox
                 v-for="page in pages"
                 v-bind:page="page"></mainbox>
@@ -26,7 +28,7 @@
 <script src="/js/jquery3.4.1.js"></script>
 <script src="/js/bootstrap.bundle.js"></script>
 <script src="/js/vue.js"></script>
-<script src="/js/main.js"></script>
+<script src="/script/main.js"></script>
 <script>
     const mainbox = {
         template: `
@@ -58,7 +60,7 @@
             ],
             data:function(){
                 return{
-                    readReview: true,
+                    readReview: false,
                 }
             },
             methods:{
