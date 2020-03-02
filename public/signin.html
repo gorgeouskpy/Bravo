@@ -6,8 +6,8 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/signin.css">
     <script src="/script/main.js"></script>
+    <script src="/js/vue.js"></script>
     <script src="/js/bootstrap.min.js"></script>
-    <scritp src="/js/vue.js"></scritp>
 </head>
 <body>
     <div id="app">
@@ -16,13 +16,15 @@
                 <div class="col-12 container-of-centerbox">
                     <h1 style="text-align: center; font-weight: 200; margin-bottom: 20px; color: rgb(241, 227, 205); font-size: 50px;text-shadow: 0 0 20px #f9f2e8;">Sign in</h1>
                     <div class="center-box">
+                        <form action="/signin.php" method="POST" id="signin">
                         <label for="username">Username:</label><br>
                         <input type="text" class="input" name="username"><br>
                         <label for="password">Password:</label><br>
-                        <input type="password" class="input" name="password"><br>
+                        <input type="password" class="input" name="password" @keydown.enter="submit"><br>
                         <input type="checkbox" name="remember" class="check">&nbsp<span class="remember">remember me</span>
-                        <p class="signupnow">还没有账号？现在注册!</p>
-                        <div class="submitbutton">Sign In</div>
+                        </form>
+                        <p class="signupnow" onclick="window.open('/signup.html');">还没有账号？现在注册!</p>
+                        <div class="submitbutton" onclick="document.getElementById('signin').submit()">Sign In</div>
                     </div>
                 </div>
             </div>
@@ -32,6 +34,11 @@
 <script>
     var vm = new Vue({
         el: "#app",
+        methods: {
+            submit (){
+                document.getElementById('signin').submit();
+            }
+        }
     });
 </script>
 </html>
