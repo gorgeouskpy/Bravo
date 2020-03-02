@@ -9,6 +9,7 @@ $status = $user -> verifyuser();
 if($status == 1){
 #    echo 'successed';
 #    die();
+    $_SESSION['user'] = $username;
     header('Location:/personal.php');
 }
 else{
