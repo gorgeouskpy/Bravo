@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/css/signin.css">
     <script src="/script/main.js"></script>
     <script src="/js/bootstrap.min.js"></script>
-    <scritp src="/js/vue.js"></scritp>
+    <script src="/js/vue.js"></script>
 </head>
 <body>
     <div id="app">
@@ -28,7 +28,7 @@
                             <input class="input" type="email" name="email">
                             <input type="checkbox" name="agreement"><span style="color: rgb(100, 76, 23);">同意<a href="/agreement.html" class="agreement">我们的协定</a></span>&nbsp<span class="fa fa-book" style="color:rgb(100, 76, 23)"></span><br>
                             <label class="sign-up-label" for="authcode">验证码</label><br>
-                            <input class="input" type="text" name="authcode" style="width:70%"><img src="imgmaker.php">
+                            <input class="input" type="text" name="authcode" style="width:70%"><img src="imgmaker.php" id="code" onclick="document.getElementById('code').src='imgmaker.php?token='+Math.random();">
                         </form>
                     </div>
                 </div>
