@@ -1,8 +1,9 @@
 <?php
 $username = $_POST['username'];
 $password = $_POST['password'];
-#$username = 'kpyxx';
-#$password = '123456';
+
+addslashes($username);
+addslashes($password);
 include './controller.php';
 $user = new login($username,$password);
 $status = $user -> verifyuser();
