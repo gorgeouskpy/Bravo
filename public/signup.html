@@ -1,4 +1,5 @@
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,6 +13,7 @@
     <script src="/js/vue.js"></script>
     <script src="/js/axios.min.js"></script>
 </head>
+
 <body>
     <div id="app">
         <div class="container">
@@ -19,18 +21,41 @@
                 <div class="col-12">
                     <h1 class="joinbravo">Join Bravo</h1>
                     <div class="signupbox">
-                        <form id="signup" action="signup.php">
-                            <label class="sign-up-label" for="username">用户名<transition name="hint"><span class="alert" style="color: brown;" v-if="usernameAlert">3-20位的用户名，不能包含字符: ,."'/|\;:()</span></transition><transition name="hint"><span class="alert" v-if="usernameStatus==2">此用户名已被占用</span></transition><transition name="hint"><span class="safe" v-if="usernameStatus==1">这个用户名可以使用</span></transition></label>
+                        <form id="signup" action="signup.php" method="POST">
+                            <label class="sign-up-label" for="username">用户名<transition name="hint"><span class="alert"
+                                        style="color: brown;" v-if="usernameAlert">3-20位的用户名，不能包含字符: ,."'/|\;:()</span>
+                                </transition>
+                                <transition name="hint"><span class="alert" v-if="usernameStatus==2">此用户名已被占用</span>
+                                </transition>
+                                <transition name="hint"><span class="safe" v-if="usernameStatus==1">这个用户名可以使用</span>
+                                </transition>
+                            </label>
                             <input class="input" type="text" name="username" v-model="username" @keyup="checkUsername">
-                            <label class="sign-up-label" for="password">密码</label><transition><span class="alert" v-if="passwordAlert ==1" style="color:brown;">请使用6-20位的密码</span></transition><transition name="hint"><span class="safe" v-if="passwordAlert == 2">这个密码可以使用</span></transition>
-                            <input class="input" type="password" name="password" v-model="password" @keyup="checkPassword">
-                            <label class="sign-up-label" for="fakepswd">请再次输入密码<transition><span class="alert" v-if="fakepswdAlert" style="color: brown;">两次输入密码不相同</span></transition></label>
-                            <input class="input" type="password" name="fakepswd" v-model="fakepswd" @keyup="checkFakepswd"> 
-                            <label class="sign-up-label" for="email">E-mail<span class="alert" v-if="emailAlert">请输入正确的邮箱</span></label>
+                            <label class="sign-up-label" for="password">密码</label>
+                            <transition><span class="alert" v-if="passwordAlert ==1"
+                                    style="color:brown;">请使用6-20位的密码</span></transition>
+                            <transition name="hint"><span class="safe" v-if="passwordAlert == 2">这个密码可以使用</span>
+                            </transition>
+                            <input class="input" type="password" name="password" v-model="password"
+                                @keyup="checkPassword">
+                            <label class="sign-up-label" for="fakepswd">请再次输入密码<transition><span class="alert"
+                                        v-if="fakepswdAlert" style="color: brown;">两次输入密码不相同</span></transition></label>
+                            <input class="input" type="password" name="fakepswd" v-model="fakepswd"
+                                @keyup="checkFakepswd">
+                            <label class="sign-up-label" for="email">E-mail<span class="alert"
+                                    v-if="emailAlert">请输入正确的邮箱</span></label>
                             <input class="input" type="email" name="email">
-                            <input type="checkbox" name="agreement"><span style="color: rgb(100, 76, 23);">同意<a href="/agreement.html" class="agreement">我们的协定</a></span>&nbsp<span class="fa fa-book" style="color:rgb(100, 76, 23)"></span><br>
-                            <label class="sign-up-label" for="authcode">验证码<span class="alert" v-if="authcodeAlert">验证码错误</span></label><br>
-                            <input class="input" type="text" name="authcode" style="width:70%"><img src="imgmaker.php" id="code" onclick="document.getElementById('code').src='imgmaker.php?token='+Math.random();">
+                            <input type="checkbox" name="agreement" v-model="readProc"><span style="color: rgb(100, 76, 23);">同意<a
+                                    href="/agreement.html" class="agreement">我们的协定</a></span>&nbsp<span
+                                class="fa fa-book" style="color:rgb(100, 76, 23)"></span><br>
+                            <label class="sign-up-label" for="authcode">验证码<span class="alert"
+                                    v-if="authcodeAlert">验证码错误</span></label><br>
+                            <input class="input" type="text" name="authcode" style="width:70%" v-model="authcode" v-on:keyup="checkAuthCode"><img
+                                src="imgmaker.php" id="code"
+                                onclick="document.getElementById('code').src='imgmaker.php?token='+Math.random();">
+                            <transition name="signupbutton">
+                            <button class="signup-submitbutton" v-if="readProc" @click="gosignup"></button>
+                            </transition>
                         </form>
                     </div>
                 </div>
@@ -41,81 +66,115 @@
 <script>
     var vm = new Vue({
         el: "#app",
-        data:{
+        data: {
             username: null,
             password: null,
             fakepswd: null,
+            authcode: null,
+            readProc: false,
             usernameAlert: false,
             usernameStatus: 0,
-            passwordAlert:0,
-            fakepswdAlert:false,
-            emailAlert:false,
-            authcodeAlert:false,
+            passwordAlert: 0,
+            fakepswdAlert: false,
+            emailAlert: false,
+            authcodeAlert: false,
         },
-        methods:{
-            checkUsername(){
+        methods: {
+            checkUsername() {
                 this.usernameStatus = 0;
-                this.usernameAlert=true;
-                if((this.username.length >3)
-                &&(this.username.length <= 20)
-                ){
-                    this.usernameAlert=false;
+                this.usernameAlert = true;
+                if ((this.username.length > 3) &&
+                    (this.username.length <= 20)
+                ) {
+                    this.usernameAlert = false;
                 }
-                if(0
-                ||(this.username.indexOf("/")!=-1)
-                ||(this.username.indexOf(",")!=-1)
-                ||(this.username.indexOf(".")!=-1)
-                ||(this.username.indexOf("?")!=-1)
-                ||(this.username.indexOf("|")!=-1)
-                ||(this.username.indexOf(";")!=-1)
-                ||(this.username.indexOf(":")!=-1)
-                ||(this.username.indexOf(" ")!=-1)
-                ||(this.username.indexOf("(")!=-1)
-                ||(this.username.indexOf(")")!=-1)
-                ||(this.username.indexOf("_")!=-1)
-                ||(this.username.indexOf("\"")!=-1)
-                ||(this.username.indexOf("\'")!=-1)
-                ||(this.username.indexOf("\\")!=-1)
-                ){
+                if (0 ||
+                    (this.username.indexOf("/") != -1) ||
+                    (this.username.indexOf(",") != -1) ||
+                    (this.username.indexOf(".") != -1) ||
+                    (this.username.indexOf("?") != -1) ||
+                    (this.username.indexOf("|") != -1) ||
+                    (this.username.indexOf(";") != -1) ||
+                    (this.username.indexOf(":") != -1) ||
+                    (this.username.indexOf(" ") != -1) ||
+                    (this.username.indexOf("(") != -1) ||
+                    (this.username.indexOf(")") != -1) ||
+                    (this.username.indexOf("_") != -1) ||
+                    (this.username.indexOf("\"") != -1) ||
+                    (this.username.indexOf("\'") != -1) ||
+                    (this.username.indexOf("\\") != -1)
+                ) {
                     vm.usernameStatus = 0;
                     vm.usernameAlert = true;
                 }
-                if(this.username.length >3 && this.username.length <=20 && !this.usernameAlert){
-                        axios.get('/usernameChecker.php?username='+this.username)
-                        .then(function(response){
-                            if(response.data=='1'){
+                if (this.username.length > 3 && this.username.length <= 20 && !this.usernameAlert) {
+                    axios.get('/usernameChecker.php?username=' + this.username)
+                        .then(function (response) {
+                            if (response.data == '1') {
                                 vm.usernameStatus = 1;
                             }
-                            if(response.data=='0'){
+                            if (response.data == '0') {
                                 vm.usernameStatus = 2;
                             }
                         })
-                        .catch(function(error){
+                        .catch(function (error) {
                             console.log(error);
-                    })
+                        })
                 }
             },
-            checkPassword(){
+            checkPassword() {
                 this.passwordAlert = 2;
-                if(0
-                ||(this.password.length <6)
-                ||(this.password.length >20)
-                ||(this.password.indexOf("%")!=-1)
-                ||(this.password.indexOf("*")!=-1)
-                ||(this.password.indexOf("\'")!=-1)
-                ||(this.password.indexOf("\"")!=-1)
-                ||(this.password.indexOf("\\")!=-1)
-                ){
+                if (0 ||
+                    (this.password.length < 6) ||
+                    (this.password.length > 20) ||
+                    (this.password.indexOf("%") != -1) ||
+                    (this.password.indexOf("*") != -1) ||
+                    (this.password.indexOf("\'") != -1) ||
+                    (this.password.indexOf("\"") != -1) ||
+                    (this.password.indexOf("\\") != -1)
+                ) {
                     vm.passwordAlert = 1;
                 }
             },
-            checkFakepswd(){
-                this.fakepswdAlert =0;
-                if(this.fakepswd !=this.password){
+            checkFakepswd() {
+                this.fakepswdAlert = 0;
+                if (this.fakepswd != this.password) {
                     this.fakepswdAlert = 1;
+                }
+            },
+            checkAuthCode: function () {
+                if(this.checkAuthCode.length !=4){
+                    this.authcodeAlert = 1;
+                }
+                if (this.authcode.length==4) {
+                    this.authcodeAlert = true;
+                    axios.get("/checkAuthcode.php?authcode="+this.authcode)
+                    .then((response)=>{
+                        if(response.data == 1){
+                            this.authcodeAlert = true;
+                        }
+                        if(response.data == 0){
+                            this.authcodeAlert = false;
+                        }
+                    })
+                    .catch((error)=>{
+                        console.error;
+                    })
+                }
+            },
+            gosignup: function(){
+                if((!this.usernameAlert)
+                &&(!this.passwordAlert)
+                &&(!this.fakepawdAlert)
+                &&(!this.authcodeAlert)
+                ){
+                    document.getElementById('signup').submit();
+                }else{
+                    alert("请完善信息");
                 }
             }
         }
     });
 </script>
+
 </html>

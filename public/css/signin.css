@@ -120,3 +120,11 @@ border: 1px solid rgb(116, 97, 16);
 .hint-enter-to, .hint-leave{
     transition: opacity .5s;
 }
+.signup-submitbutton , :active, :hover, :visited{
+    background-image: linear-gradient( to bottom, rgb(100, 76, 23), rgb(83, 57, 16));
+    margin-top: 30px;
+    width: 100%;
+    height: 40px;
+    outline: none;
+    transition: all .5s;
+}

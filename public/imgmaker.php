@@ -31,6 +31,7 @@ class authcodefactory
         header("Content-Type: image/png");
         imagepng($image);
         imagedestroy($image);
+        session_start();
         $_SESSION['authcode'] = strtoupper($code);
     }
 }
